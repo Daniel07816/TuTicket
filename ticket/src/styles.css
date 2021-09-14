@@ -17,6 +17,9 @@ html{
 body{
   font-size: 16px;
   margin: 0;
+  background-image: url("https://d7lju56vlbdri.cloudfront.net/var/ezwebin_site/storage/images/_aliases/img_1col/reportajes/cuando-volveremos-a-ir-a-conciertos-con-normalidad/8867610-2-esl-MX/Cuando-volveremos-a-ir-a-conciertos-con-normalidad.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 
@@ -26,6 +29,7 @@ body{
   border: 0.01rem solid gainsboro;
   margin-top: 10rem;
   border-radius: 2rem;
+  background-color:  #ffffff;
 }
 
 #frmDatos{
