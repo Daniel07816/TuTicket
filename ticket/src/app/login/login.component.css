@@ -1,0 +1,11 @@
+.campos input:nth-child(3){
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+
+.campos input:nth-child(2){
+  border-style: solid solid solid solid;
+  margin-top: 2rem;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
