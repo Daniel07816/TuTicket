@@ -157,4 +157,61 @@ for (const index in categorias){
 }
 */ //iria la query de las fotos
 
-
+/* ELIMINAR EVENTO
+    // parte de categorias
+    const DELETE_CATEGORIAS = {
+        text: 'DELETE FROM public.categoria_evento WHERE id_evento = ($1),
+        value: [id_evento]
+    }
+    client.query(DELETE_CATEGORIAS, (err, res)=>{
+    if(!err){
+        console.log(res.rows);
+    }
+    else{
+        console.log(err.message)
+    }
+    client.end;
+    });
+    // parte de info_ubi_local_eventos
+    const DELETE_Info_ubi_evento = {
+        text: 'DELETE FROM public.info_ubi_local_eventos WHERE id_evento = ($1),
+        value: [id_evento]
+    }
+    client.query(DELETE_Info_ubi_evento, (err, res)=>{
+    if(!err){
+        console.log(res.rows);
+    }
+    else{
+        console.log(err.message)
+    }
+    client.end;
+    });
+    // parte de eventos_creados
+    const DELETE_Eventos_creados = {
+        text: 'DELETE FROM public.eventos_creados WHERE id_evento = ($1),
+        value: [id_evento]
+    }
+    client.query(DELETE_Eventos_creados, (err, res)=>{
+    if(!err){
+        console.log(res.rows);
+    }
+    else{
+        console.log(err.message)
+    }
+    client.end;
+    });
+    // parte de data_evento
+    const DELETE_data_evento = {
+        text: 'DELETE FROM public.data_evento WHERE id_evento = ($1),
+        value: [id_evento]
+    }
+    client.query(DELETE_data_evento, (err, res)=>{
+    if(!err){
+        console.log(res.rows);
+    }
+    else{
+        console.log(err.message)
+    }
+    client.end;
+    });
+*/
