@@ -1,16 +1,29 @@
-import { LoginComponent } from './login/login.component';
-import { Component, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MainComponent } from './main/main.component';
+//componentes
+import { SigninComponent } from './componentes/signin/signin.component';
+import { SignupComponent } from './componentes/signup/signup.component';
+import { EventosComponent } from './componentes/eventos/eventos.component';
+import {AuthGuard} from './auth.guard'
 
 const routes: Routes = [
   {
-    path:'login',
-    component: LoginComponent
+    path: '',
+    redirectTo: '/eventos',
+    pathMatch: 'full'
   },
   {
-    path:'registro',
-    component: MainComponent
+    path: 'eventos',
+    component: EventosComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'signin',
+    component: SigninComponent
+  },
+  {
+    path: 'signup',
+    component: SignupComponent
   }
 ];
 
