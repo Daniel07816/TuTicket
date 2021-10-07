@@ -1,3 +1,4 @@
+import { CrearEventoComponent } from './componentes/crear-evento/crear-evento.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 //componentes
@@ -24,6 +25,11 @@ const routes: Routes = [
   {
     path: 'signup',
     component: SignupComponent
+  },
+  {
+    path: 'crear-evento',
+    component: CrearEventoComponent
+    //canActivate: [AuthGuard]
   }
 ];
 

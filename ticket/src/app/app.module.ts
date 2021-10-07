@@ -10,13 +10,15 @@ import { SigninComponent } from './componentes/signin/signin.component';
 import { EventosComponent } from './componentes/eventos/eventos.component';
 import {AuthGuard} from './auth.guard';
 import {TokenInterceptorService} from './services/token-interceptor.service';
+import { CrearEventoComponent } from './componentes/crear-evento/crear-evento.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SignupComponent,
     SigninComponent,
-    EventosComponent
+    EventosComponent,
+    CrearEventoComponent
   ],
   imports: [
     BrowserModule,
