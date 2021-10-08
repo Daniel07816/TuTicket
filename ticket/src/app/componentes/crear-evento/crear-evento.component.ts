@@ -6,10 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./crear-evento.component.css']
 })
 export class CrearEventoComponent implements OnInit {
-
-  constructor() { }
+  public imagen:string;
+  constructor() {
+    this.imagen ="";
+  }
 
   ngOnInit(): void {
+    this.imagen = "../../../assets/logo.png";
   }
 
 }
