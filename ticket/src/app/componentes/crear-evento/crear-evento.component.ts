@@ -6,6 +6,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./crear-evento.component.css']
 })
 export class CrearEventoComponent implements OnInit {
+  evento = {
+    nombre:'',
+    descripcion: '',
+    categoria: '',
+    fecha: '',
+    precio: '',
+    ubicacion: '',
+    boletosmax: '',
+    fechamax: ''
+  }
   public imagen:string;
   constructor() {
     this.imagen ="";
@@ -13,6 +23,17 @@ export class CrearEventoComponent implements OnInit {
 
   ngOnInit(): void {
     this.imagen = "../../../assets/logo.png";
+  }
+
+  crearEvento(){
+    //console.log(this.evento['nombre']);
+    //console.log(this.evento['descripcion']);
+    //console.log(this.evento['categoria']);
+    //console.log(this.evento['fecha']);
+    //console.log(this.evento['precio']);
+    //console.log(this.evento['ubicacion']);
+    //console.log(this.evento['boletosmax']);
+    //console.log(this.evento['fechamax']);
   }
 
 }

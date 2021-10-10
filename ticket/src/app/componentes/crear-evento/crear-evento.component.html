@@ -18,53 +18,44 @@
 </header>
 <main id="main">
   <div class="cont sombra">
-      <form class="formulario" method="POST" action="">
+      <form class="formulario" (submit)="crearEvento()">
           <div class="principal">
               <h2>Agregar Actividad</h2>
               <div class="formulario-grupo fila1">
                   <label for="nombre">Nombre del evento</label>
-                  <input id="nombre" name="nombre" class="nombre" type="text" required>
+                  <input id="nombre" [(ngModel)] = "evento.nombre" name="nombre" class="nombre" type="text" required>
               </div>
               <div class="formulario-grupo fila2">
                   <label for="descripcion">Descripcion del evento</label>
-                  <textarea class="descripcion" name = "descripcion" rows="3" required="" id="descripcion"></textarea>
+                  <textarea class="descripcion" [(ngModel)] = "evento.descripcion" name = "descripcion" rows="3" required="" id="descripcion"></textarea>
               </div>
               <div class="formulario-grupo fila3">
                   <label for="categoria">Categoria del evento</label>
-                  <select class="categoria" name="categoria" id="categoria">
-                      <option selected="">Select category</option>
-                      <option value="1">Categoria 1</option>
-                      <option value="2">Categoria 2</option>
-                      <option value="3">Categoria 3</option>
-                  </select>
+                  <input id="categoria" [(ngModel)] = "evento.categoria" name="categoria" class="categoria" type="text" required>
               </div>
               <div class="formulario-row fila4">
                   <div class="formulario-grupo row1">
                       <label for="fecha">Fecha del evento</label>
-                      <input id="fecha" name="fecha" class="fecha" type="datetime-local" required>
+                      <input id="fecha" name="fecha" [(ngModel)] = "evento.fecha" class="fecha" type="datetime-local" required>
                   </div>
                   <div class="formulario-grupo row2">
                       <label for="precio">Precio</label>
-                      <input id="precio" name = "precio" class="precio" type="text" required>
+                      <input id="precio" [(ngModel)] = "evento.precio" name = "precio" class="precio" type="text" required>
                   </div>
               </div>
 
               <div class="contenedor-imagenes">
                 <div class="formulario-grupo filad1">
                   <label for="ubicacion">Ubicacion</label>
-                  <input type="text" name="ubicacion" required>
+                  <input type="text" [(ngModel)] = "evento.ubicacion" name="ubicacion" required>
                 </div>
                 <div class="formulario-grupo fidad2">
                   <label for="Boletos maximos">Boletos Maximos</label>
-                  <input type="number" name="Boletos Maximos" required>
+                  <input type="number" [(ngModel)] = "evento.boletosmax" name="boletosmax" required>
                 </div>
                 <div class="formulario-grupo filad3">
-                  <label for="Boletos maximos">Boletos Maximos</label>
-                  <input type="number" name="Boletos Maximos" required>
-                </div>
-                <div class="formulario-grupo filad4">
                 <label for="fecha">Fecha maxima para comprar boletos</label>
-                <input id="fecha" name="fecha" class="fecha" type="datetime-local" required>
+                <input id="fechamax" name="fechamax"  [(ngModel)] = "evento.fechamax" class="fechamax" type="datetime-local" required>
                 </div>
 <!--
                   <div class="profile-pic-div1">
