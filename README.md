@@ -6,6 +6,7 @@
         - Modulos a intalar adicionaless: jsonwebtoken, cors
         - Para windows: 
             - cd backend
+            - npm i 
             - npm run dev
         - Para MacOS
             - cd backend
