@@ -7,7 +7,8 @@ const jwt = require('jsonwebtoken');
 router.get('/');
 router.get('/eventos',verifyTocken,principalEventos);
 router.post('/signup', signUp);
-router.post('/signin',signIn);
+router.post('/signin', signIn);
+// Aquí se añaden el resto de rutas 
 
 
 
