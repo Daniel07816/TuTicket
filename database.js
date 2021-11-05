@@ -89,9 +89,10 @@ var descripcion = 'Concierto de Mana por la gira del mundo en Guatemala'
 var fecha = '12/09/2023'
 var hora = '18:30'
 var fecha_limite = '5/09/2023'
+var path_foto = 'carpeta/lafoto_evento.jpg'
 const INSERT_infoevento = {
-    text: 'INSERT INTO public.data_evento(nombre, descripcion, fecha, hora, fecha_limite)VALUES ($1, $2, $3, $4, $5)',
-    values: [nombre, descripcion, fecha, hora, fecha_limite]
+    text: 'INSERT INTO public.data_evento(nombre, descripcion, fecha, hora, fecha_limite,path_foto)VALUES ($1, $2, $3, $4, $5, $6)',
+    values: [nombre, descripcion, fecha, hora, fecha_limite, path_foto]
   }
 client.query(INSERT_infoevento, (err, res)=>{
     if(!err){
@@ -111,13 +112,43 @@ const SELECT_ID_EVENTO_creado = {
   }
 client.query(SELECT_ID_EVENTO_creado, (err, res)=>{
     if(!err){
-        info = res.rows
+        info = res.rows 
+        // [{},{}]
         //console.log(res.rows);
         for (const index in info) {  
             user = info[index]
             for (const key in user) {  
                 id_evento = user[key]
-              }
+            }
+        }
+        const INSERT_eventoscreados = {
+            text: 'INSERT INTO public.eventos_creados(id_user_crt, id_evento)VALUES ($1, $2)',
+            values: [id_usuario, id_evento]
+          }
+        client.query(INSERT_eventoscreados, (err, res)=>{
+            if(!err){
+                console.log(res.rows);
+            }
+            else{
+                console.log(err.message)
+            }
+            client.end;
+        });
+        var categorias = [1];
+        for (const index in categorias){
+            const INSERT_categoria_evento = {
+                text: 'INSERT INTO public.categoria_evento(id_evento, id_categoria)VALUES ($1, $2)',
+                values: [id_evento, categorias[index]]
+            }   
+            client.query(INSERT_categoria_evento, (err, res)=>{
+                if(!err){
+                    console.log(res.rows);
+                }
+                else{
+                    console.log(err.message)
+                }
+                client.end;
+            });
         }
     }
     else{
@@ -125,62 +156,61 @@ client.query(SELECT_ID_EVENTO_creado, (err, res)=>{
     }
     client.end;
 });
-
-const INSERT_eventoscreados = {
-    text: 'INSERT INTO public.eventos_creados(id_user_crt, id_evento)VALUES ($1, $2)',
-    values: [id_usuario, id_evento]
-  }
-client.query(INSERT_eventoscreados, (err, res)=>{
-    if(!err){
-        console.log(res.rows);
-    }
-    else{
-        console.log(err.message)
-    }
-    client.end;
-});
-var categorias = [];
+*/
 // guardo con sus id's
-for (const index in categorias){
-    const INSERT_categoria_evento = {
-        text: 'INSERT INTO public.categoria_evento(id_evento, id_categoria)VALUES ($1, $2),
-        values: [id_evento, categorias[index]]
-    }   
-    client.query(INSERT_categoria_evento, (err, res)=>{
-    if(!err){
-        console.log(res.rows);
-    }
-    else{
-        console.log(err.message)
-    }
-    client.end;
-}
-*/ //iria la query de las fotos
-/*Información de evento luego de crear un evento. SELECT // cuando me meto a ver todos mis eventos del usuario
+ //iria la query de las fotos
+//Información de evento luego de crear un evento. SELECT // cuando me meto a ver todos mis eventos del usuario
 //#TRAER IDS DE TODOS MIS EVENTOS CREADOS
 
 //#TRAER INFO DE TODOS LOS EVENTOS DEL USUARIO
-var id_evento = 1
+var id_user = 44
+var idseventos = [];
 const SELECTQ_evento_info = {
-    text: 'SELECT id, nombre, descripcion, fecha, hora, fecha_limite, publicado, path_foto FROM public.data_evento WHERE id = ($1)',
-    values: [id_evento]
+    text: 'SELECT id_evento FROM eventos_creados WHERE id_user_crt = ($1)',
+    values: [id_user]
   }
 client.query(SELECTQ_evento_info, (err, res)=>{
     if(!err){
-        info = res.rows
-        for (const index in info) {  
-            event_ = info[index]
-            for (const key in event_) {  
-                console.log(`${key}: ${event_[key]}`)
-              }
+        idseventos = res.rows
+        console.log(idseventos)
+        for (const index in idseventos) {  
+            eventid = idseventos[index]
+            for (const key in eventid) {  
+                console.log(`${eventid[key]}`)
+                const SELECT_INFO_EVENTOS_CREADOS = {
+                    text: 'SELECT data_evento.id, data_evento.nombre, data_evento.descripcion, data_evento.fecha, data_evento.hora, data_evento.fecha_limite, data_evento.publicado, data_evento.path_foto, categorias.nombre  FROM ((data_evento INNER JOIN categoria_evento ON data_evento.id = categoria_evento.id_evento) INNER JOIN categorias ON categoria_evento.id_categoria = categorias.id) WHERE data_evento.id = ($1)',
+                    values: [eventid[key]]
+                  }
+                client.query(SELECT_INFO_EVENTOS_CREADOS, (err, res)=>{
+                    if(!err){
+                        info = res.rows
+                        console.log(info)
+                        /*for (const index in info) {  
+                            user = info[index]
+                            for (const key in user) {  
+                                console.log(`${key}: ${user[key]}`)
+                            }
+                        }*/
+                    }
+                    else{
+                        console.log(err.message)
+                    }
+                    client.end;
+                });
+            }
         }
-        
     }
     else{
         console.log(err.message)
     }
     client.end;
-    //QUERIES UTILES
+}); 
+
+
+
+// para poder editar el evento, se debe tener la variable de publicado en 0. Si es 1, solo se puede eliminar o ver 
+/*
+//QUERIES UTILES
     //Para traer la info principal y su categoría:
     SELECT data_evento.id, data_evento.nombre, data_evento.descripcion, data_evento.fecha, data_evento.hora,
     data_evento.fecha_limite, data_evento.publicado, data_evento.path_foto, categorias.nombre 
@@ -204,7 +234,6 @@ client.query(SELECTQ_evento_info, (err, res)=>{
     FROM ((data_evento INNER JOIN info_ubi_local_eventos ON data_evento.id = info_ubi_local_eventos.id_evento) 
         INNER JOIN localidades ON info_ubi_local_eventos.id_localidad = localidades.id  
         INNER JOIN ubicaciones ON info_ubi_local_eventos.id_ubicacion = ubicaciones.id) WHERE info_ubi_local_eventos.id_evento = ($1)
-}); // para poder editar el evento, se debe tener la variable de publicado en 0. Si es 1, solo se puede eliminar o ver 
 */
 /* ELIMINAR EVENTO
     // parte de categorias
