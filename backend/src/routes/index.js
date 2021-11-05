@@ -1,13 +1,15 @@
 const {Router, text} = require('express');
 const { JsonWebTokenError } = require('jsonwebtoken');
 const router = Router();
-const {signUp, signIn, principalEventos} = require('../controllers/index.controller');
+const {signUp, signIn, principalEventos, crearEvento} = require('../controllers/index.controller');
 const jwt = require('jsonwebtoken');
 
 router.get('/');
 router.get('/eventos',principalEventos);
 router.post('/signup', signUp);
 router.post('/signin', signIn);
+router.post('/crear-evento', crearEvento);
+
 // Aquí se añaden el resto de rutas 
 
 

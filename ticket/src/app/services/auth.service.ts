@@ -23,6 +23,10 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 
+  nuevoEventos(evento: {}){
+    return this.http.post<any>(this.URL+'crear-evento',evento)
+  }
+
   getToken(){
     console.log("entro")
     return window.localStorage.getItem('token');
