@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { AuthService } from './../../services/auth.service';
+import {Router} from '@angular/router';
 @Component({
   selector: 'app-crear-evento',
   templateUrl: './crear-evento.component.html',
@@ -16,9 +17,14 @@ export class CrearEventoComponent implements OnInit {
     boletosmax: '',
     fechamax: ''
   }
+
   public imagen:string;
-  constructor() {
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.imagen ="";
+
   }
 
   ngOnInit(): void {
@@ -34,6 +40,16 @@ export class CrearEventoComponent implements OnInit {
     //console.log(this.evento['ubicacion']);
     //console.log(this.evento['boletosmax']);
     //console.log(this.evento['fechamax']);
+    this.authService.nuevoEventos(this.evento)
+      .subscribe(
+        res => {
+          console.log(res);
+          this.router.navigate(['/eventos'])
+        },
+        err => {
+          console.log(err);
+        }
+      )
   }
 
 }
