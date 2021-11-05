@@ -5,7 +5,7 @@ const {signUp, signIn, principalEventos} = require('../controllers/index.control
 const jwt = require('jsonwebtoken');
 
 router.get('/');
-router.get('/eventos',verifyTocken,principalEventos);
+router.get('/eventos',principalEventos);
 router.post('/signup', signUp);
 router.post('/signin', signIn);
 // Aquí se añaden el resto de rutas 
