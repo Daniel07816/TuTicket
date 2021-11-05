@@ -89,7 +89,7 @@ var descripcion = 'Concierto de Mana por la gira del mundo en Guatemala'
 var fecha = '12/09/2023'
 var hora = '18:30'
 var fecha_limite = '5/09/2023'
-/*const INSERT_infoevento = {
+const INSERT_infoevento = {
     text: 'INSERT INTO public.data_evento(nombre, descripcion, fecha, hora, fecha_limite)VALUES ($1, $2, $3, $4, $5)',
     values: [nombre, descripcion, fecha, hora, fecha_limite]
   }
@@ -156,7 +156,56 @@ for (const index in categorias){
     client.end;
 }
 */ //iria la query de las fotos
+/*Información de evento luego de crear un evento. SELECT // cuando me meto a ver todos mis eventos del usuario
+//#TRAER IDS DE TODOS MIS EVENTOS CREADOS
 
+//#TRAER INFO DE TODOS LOS EVENTOS DEL USUARIO
+var id_evento = 1
+const SELECTQ_evento_info = {
+    text: 'SELECT id, nombre, descripcion, fecha, hora, fecha_limite, publicado, path_foto FROM public.data_evento WHERE id = ($1)',
+    values: [id_evento]
+  }
+client.query(SELECTQ_evento_info, (err, res)=>{
+    if(!err){
+        info = res.rows
+        for (const index in info) {  
+            event_ = info[index]
+            for (const key in event_) {  
+                console.log(`${key}: ${event_[key]}`)
+              }
+        }
+        
+    }
+    else{
+        console.log(err.message)
+    }
+    client.end;
+    //QUERIES UTILES
+    //Para traer la info principal y su categoría:
+    SELECT data_evento.id, data_evento.nombre, data_evento.descripcion, data_evento.fecha, data_evento.hora,
+    data_evento.fecha_limite, data_evento.publicado, data_evento.path_foto, categorias.nombre 
+    FROM ((data_evento INNER JOIN categoria_evento ON data_evento.id = categoria_evento.id_evento) 
+        INNER JOIN categorias ON categoria_evento.id_categoria = categorias.id)
+
+    //Para traer todos los id’s de eventos creados por un usuario. 
+
+    SELECT id_evento FROM eventos_creados WHERE id_user_crt = ($1) 
+
+    # toda la info y categoría en base a los id’s que obtuve de la querie anterior
+
+    SELECT data_evento.id, data_evento.nombre, data_evento.descripcion, data_evento.fecha, data_evento.hora,
+    data_evento.fecha_limite, data_evento.publicado, data_evento.path_foto, categorias.nombre 
+    FROM ((data_evento INNER JOIN categoria_evento ON data_evento.id = categoria_evento.id_evento) 
+        INNER JOIN categorias ON categoria_evento.id_categoria = categorias.id) WHERE data_evento.id IN ($1)
+
+    # la localidad, ubicación, precio y total del evento 
+
+    SELECT data_evento.id,  localidades.nombre, ubicaciones.nombre, info_ubi_local_eventos.total, info_ubi_local_eventos.precio
+    FROM ((data_evento INNER JOIN info_ubi_local_eventos ON data_evento.id = info_ubi_local_eventos.id_evento) 
+        INNER JOIN localidades ON info_ubi_local_eventos.id_localidad = localidades.id  
+        INNER JOIN ubicaciones ON info_ubi_local_eventos.id_ubicacion = ubicaciones.id) WHERE info_ubi_local_eventos.id_evento = ($1)
+}); // para poder editar el evento, se debe tener la variable de publicado en 0. Si es 1, solo se puede eliminar o ver 
+*/
 /* ELIMINAR EVENTO
     // parte de categorias
     const DELETE_CATEGORIAS = {
