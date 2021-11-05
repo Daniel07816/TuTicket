@@ -24,7 +24,7 @@ export class AuthService {
   }
 
   nuevoEventos(evento: {}){
-    return this.http.get<any>(this.URL+'crear-evento',evento)
+    return this.http.post<any>(this.URL+'crear-evento',evento)
   }
 
   getToken(){
