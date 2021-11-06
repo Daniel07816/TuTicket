@@ -154,6 +154,21 @@ const crearEvento = async (req,res) =>{
                     client.end;
                 });
             }
+            for (const index in localidades){
+                const INSERT_categoria_evento = {
+                    text: 'INSERT INTO public.info_ubi_local_eventos(id_evento, id_localidad, id_ubicacion, total, precio) VALUES ($1, $2, $3, $4, $5, $6);',
+                    values: [id_evento, localidades[index], ubicaciones[index], total, precio]
+                }   
+                client.query(INSERT_categoria_evento, (err, res)=>{
+                    if(!err){
+                        console.log(res.rows);
+                    }
+                    else{
+                        console.log(err.message)
+                    }
+                    client.end;
+                });
+            }
         }
         else{
             console.log(err.message)
