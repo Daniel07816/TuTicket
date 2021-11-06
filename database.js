@@ -163,6 +163,22 @@ client.query(SELECT_ID_EVENTO_creado, (err, res)=>{
 //#TRAER IDS DE TODOS MIS EVENTOS CREADOS
 
 //#TRAER INFO DE TODOS LOS EVENTOS DEL USUARIO
+//primero info principal.
+/*for (const index in localidades){
+    const INSERT_categoria_evento = {
+        text: 'INSERT INTO public.info_ubi_local_eventos(id_evento, id_localidad, id_ubicacion, total, precio) VALUES ($1, $2, $3, $4, $5, $6);',
+        values: [id_evento, localidades[index], ubicaciones[index], total, precio]
+    }   
+    client.query(INSERT_categoria_evento, (err, res)=>{
+        if(!err){
+            console.log(res.rows);
+        }
+        else{
+            console.log(err.message)
+        }
+        client.end;
+    });
+}*/
 var id_user = 44
 var idseventos = [];
 const SELECTQ_evento_info = {
@@ -178,10 +194,30 @@ client.query(SELECTQ_evento_info, (err, res)=>{
             for (const key in eventid) {  
                 console.log(`${eventid[key]}`)
                 const SELECT_INFO_EVENTOS_CREADOS = {
-                    text: 'SELECT data_evento.id, data_evento.nombre, data_evento.descripcion, data_evento.fecha, data_evento.hora, data_evento.fecha_limite, data_evento.publicado, data_evento.path_foto, categorias.nombre  FROM ((data_evento INNER JOIN categoria_evento ON data_evento.id = categoria_evento.id_evento) INNER JOIN categorias ON categoria_evento.id_categoria = categorias.id) WHERE data_evento.id = ($1)',
+                    text: 'SELECT data_evento.id, data_evento.nombre, data_evento.descripcion, data_evento.fecha, data_evento.hora, data_evento.fecha_limite, data_evento.publicado, data_evento.path_foto, categorias.nombre_categoria  FROM ((data_evento INNER JOIN categoria_evento ON data_evento.id = categoria_evento.id_evento) INNER JOIN categorias ON categoria_evento.id_categoria = categorias.id) WHERE data_evento.id = ($1)',
                     values: [eventid[key]]
                   }
                 client.query(SELECT_INFO_EVENTOS_CREADOS, (err, res)=>{
+                    if(!err){
+                        info = res.rows
+                        console.log(info)
+                        /*for (const index in info) {  
+                            user = info[index]
+                            for (const key in user) {  
+                                console.log(`${key}: ${user[key]}`)
+                            }
+                        }*/
+                    }
+                    else{
+                        console.log(err.message)
+                    }
+                    client.end;
+                });
+                const SELECT_INFO_EVENTOS_CREADOS_p2 = {
+                    text: 'SELECT data_evento.id,  localidades.nombre_localidad, ubicaciones.nombre_ubicacion, info_ubi_local_eventos.total, info_ubi_local_eventos.precio FROM ((data_evento INNER JOIN info_ubi_local_eventos ON data_evento.id = info_ubi_local_eventos.id_evento) INNER JOIN localidades ON info_ubi_local_eventos.id_localidad = localidades.id  INNER JOIN ubicaciones ON info_ubi_local_eventos.id_ubicacion = ubicaciones.id) WHERE info_ubi_local_eventos.id_evento = ($1)',
+                    values: [eventid[key]]
+                  }
+                client.query(SELECT_INFO_EVENTOS_CREADOS_p2, (err, res)=>{
                     if(!err){
                         info = res.rows
                         console.log(info)
@@ -205,6 +241,9 @@ client.query(SELECTQ_evento_info, (err, res)=>{
     }
     client.end;
 }); 
+
+//segudno info de localidad y de ubicación 
+
 
 
 
