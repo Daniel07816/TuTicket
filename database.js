@@ -159,11 +159,6 @@ client.query(SELECT_ID_EVENTO_creado, (err, res)=>{
 */
 // guardo con sus id's
  //iria la query de las fotos
-//Información de evento luego de crear un evento. SELECT // cuando me meto a ver todos mis eventos del usuario
-//#TRAER IDS DE TODOS MIS EVENTOS CREADOS
-
-//#TRAER INFO DE TODOS LOS EVENTOS DEL USUARIO
-//primero info principal.
 /*for (const index in localidades){
     const INSERT_categoria_evento = {
         text: 'INSERT INTO public.info_ubi_local_eventos(id_evento, id_localidad, id_ubicacion, total, precio) VALUES ($1, $2, $3, $4, $5, $6);',
@@ -179,6 +174,11 @@ client.query(SELECT_ID_EVENTO_creado, (err, res)=>{
         client.end;
     });
 }*/
+//Información de evento luego de crear un evento. SELECT // cuando me meto a ver todos mis eventos del usuario
+//#TRAER IDS DE TODOS MIS EVENTOS CREADOS
+
+//#TRAER INFO DE TODOS LOS EVENTOS DEL USUARIO
+/*primero info principal.
 var id_user = 44
 var idseventos = [];
 const SELECTQ_evento_info = {
@@ -201,18 +201,19 @@ client.query(SELECTQ_evento_info, (err, res)=>{
                     if(!err){
                         info = res.rows
                         console.log(info)
-                        /*for (const index in info) {  
-                            user = info[index]
-                            for (const key in user) {  
-                                console.log(`${key}: ${user[key]}`)
-                            }
-                        }*/
+                        //for (const index in info) {  
+                        //    user = info[index]
+                        //    for (const key in user) {  
+                        //        console.log(`${key}: ${user[key]}`)
+                        //    }
+                        //}
                     }
                     else{
                         console.log(err.message)
                     }
                     client.end;
                 });
+                //segudno info de localidad y de ubicación
                 const SELECT_INFO_EVENTOS_CREADOS_p2 = {
                     text: 'SELECT data_evento.id,  localidades.nombre_localidad, ubicaciones.nombre_ubicacion, info_ubi_local_eventos.total, info_ubi_local_eventos.precio FROM ((data_evento INNER JOIN info_ubi_local_eventos ON data_evento.id = info_ubi_local_eventos.id_evento) INNER JOIN localidades ON info_ubi_local_eventos.id_localidad = localidades.id  INNER JOIN ubicaciones ON info_ubi_local_eventos.id_ubicacion = ubicaciones.id) WHERE info_ubi_local_eventos.id_evento = ($1)',
                     values: [eventid[key]]
@@ -221,12 +222,12 @@ client.query(SELECTQ_evento_info, (err, res)=>{
                     if(!err){
                         info = res.rows
                         console.log(info)
-                        /*for (const index in info) {  
-                            user = info[index]
-                            for (const key in user) {  
-                                console.log(`${key}: ${user[key]}`)
-                            }
-                        }*/
+                        //for (const index in info) {  
+                        //    user = info[index]
+                        //    for (const key in user) {  
+                        //        console.log(`${key}: ${user[key]}`)
+                        //    }
+                        //}
                     }
                     else{
                         console.log(err.message)
@@ -240,16 +241,9 @@ client.query(SELECTQ_evento_info, (err, res)=>{
         console.log(err.message)
     }
     client.end;
-}); 
-
-//segudno info de localidad y de ubicación 
-
-
-
-
-// para poder editar el evento, se debe tener la variable de publicado en 0. Si es 1, solo se puede eliminar o ver 
-/*
-//QUERIES UTILES
+}); // para poder editar el evento, se debe tener la variable de publicado en 0. Si es 1, solo se puede eliminar o ver 
+*/
+/*QUERIES UTILES para el select de todo el evento. check
     //Para traer la info principal y su categoría:
     SELECT data_evento.id, data_evento.nombre, data_evento.descripcion, data_evento.fecha, data_evento.hora,
     data_evento.fecha_limite, data_evento.publicado, data_evento.path_foto, categorias.nombre 
@@ -332,3 +326,73 @@ client.query(SELECTQ_evento_info, (err, res)=>{
     client.end;
     });
 */
+// INFO DE CATEGORIAS, LOCALIDADES Y UBICACIONES
+const SELECT_CATEGORIAS = {
+    text: 'SELECT * FROM public.categorias',
+    values: []
+  }
+client.query(SELECT_CATEGORIAS, (err, res)=>{
+    if(!err){
+        //console.log(typeof(res))
+        //console.log(res)
+        info = res.rows
+        //console.log(res.rows);
+        for (const index in info) {  
+            user = info[index]
+            for (const key in user) {  
+                console.log(`${key}: ${user[key]}`)
+              }
+        }
+        
+    }
+    else{
+        console.log(err.message)
+    }
+    client.end;
+});
+const SELECT_LOCALIDADES = {
+    text: 'SELECT * FROM public.localidades',
+    values: []
+  }
+client.query(SELECT_LOCALIDADES, (err, res)=>{
+    if(!err){
+        //console.log(typeof(res))
+        //console.log(res)
+        info = res.rows
+        //console.log(res.rows);
+        for (const index in info) {  
+            user = info[index]
+            for (const key in user) {  
+                console.log(`${key}: ${user[key]}`)
+              }
+        }
+        
+    }
+    else{
+        console.log(err.message)
+    }
+    client.end;
+});
+const SELECT_UBICACIONES = {
+    text: 'SELECT * FROM public.ubicaciones',
+    values: []
+  }
+client.query(SELECT_UBICACIONES, (err, res)=>{
+    if(!err){
+        //console.log(typeof(res))
+        //console.log(res)
+        info = res.rows
+        //console.log(res.rows);
+        for (const index in info) {  
+            user = info[index]
+            for (const key in user) {  
+                console.log(`${key}: ${user[key]}`)
+              }
+        }
+        
+    }
+    else{
+        console.log(err.message)
+    }
+    client.end;
+});
