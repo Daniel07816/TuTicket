@@ -61,8 +61,12 @@ const signIn = async (req,res) =>{
     });
 }
 
+
 const principalEventos = async (req,res) =>{
-    res.send('Testing eventos')
+    const token = jwt.verify(req.headers.authorization,'secretKey');
+    var cosntIdUsuario = token.id //Este es el Id del usuario
+    //Aqui se hace la query para obtener todos los eventos de un usuario
+    res.send('Testing eventos') //Hay que cambiar esto para que devuelva un Json con todos los eventos del usuario
 }
 
 const crearEvento = async (req,res) =>{
