@@ -156,7 +156,7 @@ const crearEvento = async (req,res) =>{
             }
             for (const index in localidades){
                 const INSERT_categoria_evento = {
-                    text: 'INSERT INTO public.info_ubi_local_eventos(id_evento, id_localidad, id_ubicacion, total, precio) VALUES ($1, $2, $3, $4, $5, $6);',
+                    text: 'INSERT INTO public.info_ubi_local_eventos(id_evento, id_localidad, id_ubicacion, total, precio) VALUES ($1, $2, $3, $4, $5);',
                     values: [id_evento, localidades[index], ubicaciones[index], total, precio]
                 }   
                 client.query(INSERT_categoria_evento, (err, res)=>{
