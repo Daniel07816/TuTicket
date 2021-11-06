@@ -66,7 +66,9 @@ const principalEventos = async (req,res) =>{
 }
 
 const crearEvento = async (req,res) =>{
-    const {nombre,descripcion,categoria,fecha,precio,ubicacion,boletosmax,fechamax} = req.body;
+    const {idUsuario,nombre,descripcion,categoria,fecha,precio,ubicacion,boletosmax,fechamax} = req.body;
+    const idUsuarioD = jwt.verify(idUsuario,'secretKey').id;
+    console.log(idUsuarioD)
     console.log(nombre)
     console.log(descripcion)
     console.log(categoria)
@@ -90,6 +92,7 @@ const crearEvento = async (req,res) =>{
     //var fecha = fecha1[0]
     //var hora = fecha1[1]
     //var fecha_limite = fecha2[0]
+    
     const INSERT_infoevento = {
         text: 'INSERT INTO public.data_evento(nombre, descripcion, fecha, hora, fecha_limite)VALUES ($1, $2, $3, $4, $5)',
         values: [nombre, descripcion, fecha1[0], fecha1[1], fecha2[0]]
@@ -158,6 +161,7 @@ const crearEvento = async (req,res) =>{
         client.end;
     });
     res.send('Testing eventos')
+    
 }
 
 module.exports ={

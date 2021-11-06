@@ -8,6 +8,7 @@ import {Router} from '@angular/router';
 })
 export class CrearEventoComponent implements OnInit {
   evento = {
+    idUsuario:'',
     nombre:'',
     descripcion: '',
     categoria: '',
@@ -29,6 +30,7 @@ export class CrearEventoComponent implements OnInit {
 
   ngOnInit(): void {
     this.imagen = "../../../assets/logo.png";
+    this.evento.idUsuario = <string>window.localStorage.getItem('token');
   }
 
   crearEvento(){
