@@ -10,6 +10,8 @@ router.post('/signup', signUp);
 router.post('/signin', signIn);
 router.post('/crear-evento', crearEvento);
 
+
+
 // Aquí se añaden el resto de rutas 
 
 

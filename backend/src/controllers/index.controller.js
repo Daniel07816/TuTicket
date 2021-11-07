@@ -62,12 +62,96 @@ const signIn = async (req,res) =>{
 }
 
 
-const principalEventos = async (req,res) =>{
+const principalEventos = async (req, res) =>{
     const token = jwt.verify(req.headers.authorization,'secretKey');
-    var cosntIdUsuario = token.id //Este es el Id del usuario
+    var id_user = token.id //Este es el Id del usuario
+    //var id_user = 44
+
+    console.log("Usuario: ", id_user);
+
     //Aqui se hace la query para obtener todos los eventos de un usuario
-    res.send('Testing eventos') //Hay que cambiar esto para que devuelva un Json con todos los eventos del usuario
+    const response = res 
+    var idseventos = [];
+    var info = []; 
+    const SELECTQ_evento_info = {
+        text: 'SELECT id_evento FROM eventos_creados WHERE id_user_crt = ($1)',
+        values: [id_user]
+    }
+    client.query(SELECTQ_evento_info, (err, res)=>{
+        if(!err){
+            idseventos = res.rows
+            console.log(idseventos)
+            for (const index in idseventos) {  
+                eventid = idseventos[index]
+                for (const key in eventid) {  
+                    console.log(`${eventid[key]}`)
+                    const SELECT_INFO_EVENTOS_CREADOS = {
+                        text: 'SELECT data_evento.id, data_evento.nombre, data_evento.descripcion, data_evento.fecha, data_evento.hora, data_evento.fecha_limite, data_evento.publicado, data_evento.path_foto, categorias.nombre_categoria  FROM ((data_evento INNER JOIN categoria_evento ON data_evento.id = categoria_evento.id_evento) INNER JOIN categorias ON categoria_evento.id_categoria = categorias.id) WHERE data_evento.id = ($1)',
+                        values: [eventid[key]]
+                    }
+                    client.query(SELECT_INFO_EVENTOS_CREADOS, (err, res)=>{
+                        if(!err){
+                            console.log(res.rows[0]);
+                            if (res.rows[0]) {
+                                info.push(res.rows[0]);
+                            }
+                            
+                            if (idseventos[index] == idseventos[idseventos.length-1]){
+                                console.log("HTTP Request GET eventos!!");
+                                console.log(info);
+                                response.send(info);
+                            }
+
+                            //for (const index in info) {  
+                            //    user = info[index]
+                            //    for (const key in user) {  
+                            //        console.log(`${key}: ${user[key]}`)
+                            //    }
+                            //}
+                        }
+                        else{
+                            console.log(err.message);
+                        }
+                        client.end;
+                    });
+                    //segudno info de localidad y de ubicación
+                    const SELECT_INFO_EVENTOS_CREADOS_p2 = {
+                        text: 'SELECT data_evento.id,  localidades.nombre_localidad, ubicaciones.nombre_ubicacion, info_ubi_local_eventos.total, info_ubi_local_eventos.precio FROM ((data_evento INNER JOIN info_ubi_local_eventos ON data_evento.id = info_ubi_local_eventos.id_evento) INNER JOIN localidades ON info_ubi_local_eventos.id_localidad = localidades.id  INNER JOIN ubicaciones ON info_ubi_local_eventos.id_ubicacion = ubicaciones.id) WHERE info_ubi_local_eventos.id_evento = ($1)',
+                        values: [eventid[key]]
+                    }
+                    client.query(SELECT_INFO_EVENTOS_CREADOS_p2, (err, res)=>{
+                        if(!err){
+                            console.log(res.rows[0]);
+                            if (res.rows[0]) {
+                                info.push(res.rows[0]);
+                            }
+
+                            //for (const index in info) {  
+                            //    user = info[index]
+                            //    for (const key in user) {  
+                            //        console.log(`${key}: ${user[key]}`)
+                            //    }
+                            //}
+                        }
+                        else{
+                            console.log(err.message)
+                        }
+                        client.end;
+                    });
+                }
+            }
+        }
+        else{
+            console.log(err.message)
+        }
+        client.end;
+    });
+    //res.send('Testing eventos') //Hay que cambiar esto para que devuelva un Json con todos los eventos del usuario
 }
+
+
+
+
 
 const crearEvento = async (req,res) =>{
     const {idUsuario,nombre,descripcion,categoria,fecha,precio,ubicacion,boletosmax,fechamax} = req.body;
@@ -112,7 +196,7 @@ const crearEvento = async (req,res) =>{
     });
 
     var id_evento;
-    var id_usuario = 44; 
+    var id_usuario = 43; 
 
     // aqui query para traer el id, del evento creado.  
     const SELECT_ID_EVENTO_creado = {
