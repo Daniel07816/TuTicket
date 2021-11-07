@@ -21,16 +21,23 @@ const signUp = async (req,res) =>{
       }
         await client.query(INSERT_infousuario, (err, resquery)=>{
         if(!err && resquery.rowCount > 0){
-            const response = client.query('SELECT id FROM public.data_user_crt ORDER BY id DESC LIMIT 1');
-            const token = jwt.sign({id:response.id}, 'secretKey');
-            res.status(200).json({
-                token
-            });
+            const queryid = async (requestt, ress) =>{
+                
+                    await client.query('SELECT id FROM public.data_user_crt ORDER BY id DESC LIMIT 1',(err2,resquery2)=>{
+                        if(!err2 && resquery2.rowCount > 0){
+                        const token = jwt.sign({id:resquery2.rows[0].id}, 'secretKey');
+                        res.status(200).json({
+                        token});
+                        }
+                    });
+            }
+            queryid()
         }
         else{
             return res.status(401).send('Datos erroneos')
         }
-    });    
+    })
+    
     
     //Query para obtener todos los usuarios creados
     /*
@@ -153,7 +160,7 @@ const principalEventos = async (req, res) =>{
 
 
 
-const crearEvento = async (req,res) =>{
+const crearEvento = async (req,resp) =>{
     const {idUsuario,nombre,descripcion,categoria,fecha,precio,ubicacion,boletosmax,fechamax} = req.body;
     const idUsuarioD = jwt.verify(idUsuario,'secretKey').id;
     console.log(idUsuarioD)
@@ -242,6 +249,9 @@ const crearEvento = async (req,res) =>{
                     client.end;
                 });
             }
+            //localidades= [1]
+            //ubicaciones = [1]
+            //total = 15
             for (const index in localidades){
                 const INSERT_categoria_evento = {
                     text: 'INSERT INTO public.info_ubi_local_eventos(id_evento, id_localidad, id_ubicacion, total, precio) VALUES ($1, $2, $3, $4, $5);',
@@ -263,7 +273,9 @@ const crearEvento = async (req,res) =>{
         }
         client.end;
     });
-    res.send('Testing eventos')
+    return resp.status(200).json({
+        ok:'ok'
+    });
     
 }
 
