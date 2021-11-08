@@ -156,6 +156,131 @@ form input[type="submit"]:hover{
 
 /** contenido principal **/
 
+#main{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 1200px;
+  flex-wrap: wrap;
+  padding: 40px 0;
+
+}
+
+.container .card{
+  position: relative;
+  min-width: 320px;
+  height: 600px;
+  box-shadow: inset 5px 5px 5px rgba(0,0,0,0.05),
+              inset -5px -5px 5px rgba(255,255,255,0.9),
+                    5px 5px 5px rgba(0,0,0,0.05),
+                    -5px -5px 5px rgba(255,255,255,0.9);
+  border-radius: 15px;
+  margin: 30px;
+  background: white;
+}
+
+
+.container .card .box{
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  background: white;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s;
+}
+
+.container .card:hover .box{
+  transform: translateY(-50px);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  background:  linear-gradient(90deg, rgba(85,28,57,1) 0%, rgba(85,28,57,1) 100%);
+}
+
+
+.container .card .box .content{
+padding: 20px;
+text-align: center;
+}
+
+.container .card .box .content h2{
+  position: absolute;
+  top: 5px;
+  right: 15px;
+  font-size: 3em;
+  color: rgba(0,0,0,0.03);
+  transition: 0.5s;
+  pointer-events: none;
+}
+
+.container .card:hover .box .content h2{
+  color: rgba(255,255,255,0.09);
+}
+
+.container .card .box .content h3{
+  font-size: 1.8em;
+  color: #601c34;
+  z-index: 1;
+  transition: 0.5s;
+}
+
+.container .card .box .content p{
+  font-size: 1em;
+  font-weight: 300;
+  color: #777;
+  z-index: 1;
+  transition: 0.5s;
+  text-align: justify;
+}
+
+.container .card .box .content p span{
+  color: #601c34;
+  font-weight: bold;
+}
+
+.container .card:hover .box .content p span{
+  color: white;
+  font-weight: bold;
+}
+
+.container .card:hover .box .content h3,
+.container .card:hover .box .content p{
+  color: #fff;
+
+}
+
+
+.container .card .box .content a{
+  position: relative;
+  display: inline-block;
+  padding:  8px 20px;
+  background: #FE900A;
+  margin-top: 15px;
+  border-radius: 20px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 400;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.02);
+}
+
+.container .card:hover .box .content a{
+  color:#601c34 ;
+  background: white;
+
+}
+
+
+
+
 .contenedor-cards{
   display: grid;
   grid-template-columns: repeat(auto-fit,minmax(250px, 1fr));
