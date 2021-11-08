@@ -69,7 +69,7 @@ const signIn = async (req,res) =>{
 }
 
 
-const principalEventos = async (req, res) =>{
+const principalEventos = async (req, response) =>{
     const token = jwt.verify(req.headers.authorization,'secretKey');
     var id_user = token.id //Este es el Id del usuario
     //var id_user = 44
@@ -77,7 +77,6 @@ const principalEventos = async (req, res) =>{
     console.log("Usuario: ", id_user);
 
     //Aqui se hace la query para obtener todos los eventos de un usuario
-    const response = res 
     var idseventos = [];
     var info = []; 
     const SELECTQ_evento_info = {
@@ -161,8 +160,13 @@ const principalEventos = async (req, res) =>{
 
 
 const crearEvento = async (req,resp) =>{
-    const {idUsuario,nombre,descripcion,categoria,fecha,precio,ubicacion,boletosmax,fechamax} = req.body;
-    const idUsuarioD = jwt.verify(idUsuario,'secretKey').id;
+    const {idUsuarioD,nombre,descripcion,categoria,fecha,precio,ubicacion,boletosmax,fechamax} = req.body;
+
+    const token = jwt.verify(req.headers.authorization,'secretKey');
+    var id_usuario = token.id //Este es el Id del usuario
+
+    //var id_usuario = jwt.verify(idUsuarioD,'secretKey').id;
+    console.log(id_usuario)
     console.log(idUsuarioD)
     console.log(nombre)
     console.log(descripcion)
@@ -203,7 +207,7 @@ const crearEvento = async (req,resp) =>{
     });
 
     var id_evento;
-    var id_usuario = 43; 
+    //var id_usuario = 43; 
 
     // aqui query para traer el id, del evento creado.  
     const SELECT_ID_EVENTO_creado = {
@@ -249,9 +253,9 @@ const crearEvento = async (req,resp) =>{
                     client.end;
                 });
             }
-            //localidades= [1]
-            //ubicaciones = [1]
-            //total = 15
+            localidades= [1]
+            ubicaciones = [1]
+            total = 15
             for (const index in localidades){
                 const INSERT_categoria_evento = {
                     text: 'INSERT INTO public.info_ubi_local_eventos(id_evento, id_localidad, id_ubicacion, total, precio) VALUES ($1, $2, $3, $4, $5);',
