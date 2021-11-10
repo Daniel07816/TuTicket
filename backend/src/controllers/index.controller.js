@@ -105,7 +105,7 @@ const principalEventos = async (req, response) =>{
                             if (idseventos[index] == idseventos[idseventos.length-1]){
                                 console.log("HTTP Request GET eventos!!");
                                 console.log(info);
-                                response.send(info);
+                                response.status(200).json(info);
                             }
 
                             //for (const index in info) {  
@@ -129,7 +129,7 @@ const principalEventos = async (req, response) =>{
                         if(!err){
                             console.log(res.rows[0]);
                             if (res.rows[0]) {
-                                info.push(res.rows[0]);
+                                //info.push(res.rows[0]);
                             }
 
                             //for (const index in info) {  
