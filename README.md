@@ -20,3 +20,4 @@
             - ng serve
 # Para el acceso de la página:
     - Se debe ingreasr al localhost que levanta el frontend. (4200)
+    -probando
