@@ -27,6 +27,8 @@ import { CrearEventoComponent } from './componentes/crear-evento/crear-evento.co
     HttpClientModule
   ],
   providers: [
+    CrearEventoComponent,
+    EventosComponent,
     AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,

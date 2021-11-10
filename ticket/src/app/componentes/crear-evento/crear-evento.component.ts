@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './../../services/auth.service';
 import {Router} from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import {EventosComponent} from '../eventos/eventos.component'
 @Component({
   selector: 'app-crear-evento',
   templateUrl: './crear-evento.component.html',
@@ -18,9 +20,11 @@ export class CrearEventoComponent implements OnInit {
     boletosmax: '',
     fechamax: ''
   }
-
+  url_api = 'http://localhost:3000/eventos';
   public imagen:string;
   constructor(
+    private eventos_componente: EventosComponent,
+    private http: HttpClient,
     private authService: AuthService,
     private router: Router
   ) {
@@ -31,6 +35,12 @@ export class CrearEventoComponent implements OnInit {
   ngOnInit(): void {
     this.imagen = "../../../assets/logo.png";
     this.evento.idUsuario = <string>window.localStorage.getItem('token');
+    this.http.get(this.url_api).subscribe(
+      res => {
+       this.eventos_componente.eventos = res;
+      },
+      err => console.log(err)
+    )
   }
 
   crearEvento(){
@@ -51,6 +61,12 @@ export class CrearEventoComponent implements OnInit {
         err => {
           console.log(err);
         }
+      )
+      this.http.get(this.url_api).subscribe(
+        res => {
+         this.eventos_componente.eventos = res;
+        },
+        err => console.log(err)
       )
   }
 
